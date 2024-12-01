@@ -117,7 +117,7 @@ setCCActiveUser :: ChatController -> UserId -> IO ()
 setCCActiveUser cc uid = do
   sendChatCmd cc (APISetActiveUser uid Nothing) >>= \case
     CRActiveUser user -> pure ()
-    _ -> fail "Can't switch to user"
+    er -> fail $ show er
 
 getContactList :: ChatController -> IO [Contact]
 getContactList cc = do
