@@ -25,6 +25,7 @@ import System.Exit (exitFailure)
 import Simplex.Messaging.Agent.Protocol
 import Simplex.Chat.Types
 import Control.Exception
+import Data.Maybe (Maybe(Nothing))
 
 chatBotRepl :: String -> (Contact -> String -> IO String) -> User -> ChatController -> IO ()
 chatBotRepl welcome answer _user cc = do
@@ -110,3 +111,9 @@ createActiveUser cc newUserProfile = do
   sendChatCmd cc (CreateActiveUser NewUser {profile, pastTimestamp = False}) >>= \case
     CRActiveUser user -> pure user
     _ -> fail "Can't create profile"
+
+setCCActiveUser :: ChatController -> UserId -> IO ()
+setCCActiveUser cc uid = do
+  sendChatCmd cc (APISetActiveUser uid Nothing) >>= \case
+    CRActiveUser user -> pure ()
+    _ -> fail "Can't switch to user"
