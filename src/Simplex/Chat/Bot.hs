@@ -103,6 +103,7 @@ sendContactInvatation cc invatationLink= do
   let cmd = Connect False (pure invatationLink)
   sendChatCmd cc cmd >>= \case 
     CRSentConfirmation {} -> print "Invatation sent???"
+    CRSentInvitation {} -> print "Invatation sent???"
     r -> putStrLn $ "Sending invatation error" <> show r
 
 createActiveUser :: ChatController -> Profile -> IO User
